@@ -5,9 +5,9 @@
     /// </summary>
     public enum RobotDirections
     {
-        North,
-        East,
-        South,
-        West
+        N,
+        E,
+        S,
+        W
     }
 }

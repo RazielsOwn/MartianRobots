@@ -7,6 +7,7 @@ namespace MartianRobots
     /// </summary>
     public class Robot : IRobot
     {
+        private IField currentField;
         /// <summary>
         /// Current X coordinate
         /// </summary>
@@ -24,26 +25,28 @@ namespace MartianRobots
         /// </summary>
         private readonly Queue<char> actionsQueue;
 
-        public Robot(int currentX, int currentY, string currentDirection, string actions)
+        public Robot(IField field, int currentX, int currentY, string currentDirection, string actions)
         {
+            actionsQueue = new Queue<char>();
+            currentField = field;
             CurrentX = currentX;
             CurrentY = currentY;
 
             // assume that north is direction by default or bad input value
-            switch (currentDirection)
+            switch (currentDirection.ToUpper())
             {
                 case "N":
                 default:
-                    CurrentDirection = RobotDirections.North;
+                    CurrentDirection = RobotDirections.N;
                     break;
                 case "S":
-                    CurrentDirection = RobotDirections.South;
+                    CurrentDirection = RobotDirections.S;
                     break;
                 case "W":
-                    CurrentDirection = RobotDirections.West;
+                    CurrentDirection = RobotDirections.W;
                     break;
                 case "E":
-                    CurrentDirection = RobotDirections.East;
+                    CurrentDirection = RobotDirections.E;
                     break;
             }
 
@@ -60,15 +63,15 @@ namespace MartianRobots
         /// <summary>
         /// Method for next robot action in Queue
         /// </summary>
-        /// <returns>true if there is next action, false otherwise</returns>
-        public bool NextAction()
+        /// <returns>true - if all is alright, false - if robot lost</returns>
+        public bool ExecuteActions()
         {
             while (true)
             {
                 // break on empty queue
                 if (actionsQueue.Count == 0)
                 {
-                    break;
+                    return true;
                 }
 
                 var nextAction = actionsQueue.Dequeue();
@@ -78,19 +81,31 @@ namespace MartianRobots
                     // turn left
                     case 'L':
                         CurrentDirection = CurrentDirection.Previous();
-                        return true;
+                        continue;
                     // turn right
                     case 'R':
                         CurrentDirection = CurrentDirection.Next();
-                        return true;
+                        continue;
                     // move forward
                     case 'F':
+                        var canMove = currentField.CanMoveToDirection(CurrentX, CurrentY, CurrentDirection);
+                        if (canMove == null)
+                        {
+                            // direction forbidden so skip action
+                            continue;
+                        }
+
+                        if (!canMove.Value)
+                        {
+                            // robot will be lost
+                            return false;
+                        }
+
                         moveForward();
-                        return true;
                         // additional actions
+                        continue;
                 }
             }
-            return false;
         }
 
         // move forward current direction
@@ -98,16 +113,16 @@ namespace MartianRobots
         {
             switch (CurrentDirection)
             {
-                case RobotDirections.North:
+                case RobotDirections.N:
                     CurrentY++;
                     break;
-                case RobotDirections.South:
+                case RobotDirections.S:
                     CurrentY--;
                     break;
-                case RobotDirections.West:
+                case RobotDirections.W:
                     CurrentX--;
                     break;
-                case RobotDirections.East:
+                case RobotDirections.E:
                     CurrentX++;
                     break;
             }

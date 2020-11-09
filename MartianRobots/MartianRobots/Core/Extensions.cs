@@ -13,7 +13,7 @@ namespace MartianRobots
 
             var Arr = (T[])Enum.GetValues(src.GetType());
             var j = Array.IndexOf(Arr, src) - 1;
-            return (Arr.Length == -1) ? Arr[Arr.Length - 1] : Arr[j];
+            return (j == -1) ? Arr[Arr.Length - 1] : Arr[j];
         }
 
         public static T Next<T>(this T src) where T : struct
