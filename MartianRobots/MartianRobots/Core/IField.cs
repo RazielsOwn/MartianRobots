@@ -4,7 +4,6 @@ namespace MartianRobots
 {
     public interface IField
     {
-        HashSet<FieldCoordinate> BadCoordinates { get; set; }
         int MaximumX { get; set; }
         int MaximumY { get; set; }
 

@@ -97,7 +97,7 @@ namespace MartianRobots
 
                         if (!canMove.Value)
                         {
-                            // robot will be lost
+                            // robot will be lost so just stop further execution
                             return false;
                         }
 

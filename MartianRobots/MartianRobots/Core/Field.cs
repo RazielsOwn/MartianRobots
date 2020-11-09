@@ -19,13 +19,13 @@ namespace MartianRobots
         /// <summary>
         /// Bad coordinates with direction storage
         /// </summary>
-        public HashSet<FieldCoordinate> BadCoordinates { get; set; }
+        private HashSet<FieldCoordinate> badCoordinates { get; set; }
 
         public Field(int maximumX, int maximumY)
         {
             MaximumX = maximumX;
             MaximumY = maximumY;
-            BadCoordinates = new HashSet<FieldCoordinate>();
+            badCoordinates = new HashSet<FieldCoordinate>();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace MartianRobots
         public bool? CanMoveToDirection(int currentX, int currentY, RobotDirections direction)
         {
             // check stored bad coordinates data
-            if (BadCoordinates.Contains(new FieldCoordinate(currentX, currentY, direction)))
+            if (badCoordinates.Contains(new FieldCoordinate(currentX, currentY, direction)))
             {
                 // some robot already lost
                 return null;
@@ -65,7 +65,7 @@ namespace MartianRobots
             // save bad coordinate
             if (result == false)
             {
-                BadCoordinates.Add(new FieldCoordinate(currentX, currentY, direction));
+                badCoordinates.Add(new FieldCoordinate(currentX, currentY, direction));
             }
 
             return result;
