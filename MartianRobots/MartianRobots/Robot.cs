@@ -1,4 +1,6 @@
-﻿namespace MartianRobots
+﻿using System.Collections.Generic;
+
+namespace MartianRobots
 {
     /// <summary>
     /// Robot class, for individual robot
@@ -20,7 +22,7 @@
         /// <summary>
         ///  Robot actions queue
         /// </summary>
-        private readonly string actionsQueue;
+        private readonly Queue<char> actionsQueue;
 
         public Robot(int currentX, int currentY, string currentDirection, string actions)
         {
@@ -45,9 +47,13 @@
                     break;
             }
 
+            actions = actions.ToUpper();
             if (!string.IsNullOrWhiteSpace(actions))
             {
-                actionsQueue = actions;
+                for (var i = 0; i < actions.Length; i++)
+                {
+                    actionsQueue.Enqueue(actions[i]);
+                }
             }
         }
 
@@ -57,7 +63,54 @@
         /// <returns>true if there is next action, false otherwise</returns>
         public bool NextAction()
         {
+            while (true)
+            {
+                // break on empty queue
+                if (actionsQueue.Count == 0)
+                {
+                    break;
+                }
+
+                var nextAction = actionsQueue.Dequeue();
+                // check if action is valid
+                switch (nextAction)
+                {
+                    // turn left
+                    case 'L':
+                        CurrentDirection = CurrentDirection.Previous();
+                        return true;
+                    // turn right
+                    case 'R':
+                        CurrentDirection = CurrentDirection.Next();
+                        return true;
+                    // move forward
+                    case 'F':
+                        moveForward();
+                        return true;
+                        // additional actions
+                }
+            }
             return false;
+        }
+
+        // move forward current direction
+        private void moveForward()
+        {
+            switch (CurrentDirection)
+            {
+                case RobotDirections.North:
+                    CurrentY++;
+                    break;
+                case RobotDirections.South:
+                    CurrentY--;
+                    break;
+                case RobotDirections.West:
+                    CurrentX--;
+                    break;
+                case RobotDirections.East:
+                    CurrentX++;
+                    break;
+            }
         }
     }
 }
