@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MartianRobots.Core.RobotActions;
+using System.Collections.Generic;
 
 namespace MartianRobots
 {
@@ -7,7 +8,7 @@ namespace MartianRobots
     /// </summary>
     public class Robot : IRobot
     {
-        private IField currentField;
+        private readonly IField currentField;
         /// <summary>
         /// Current X coordinate
         /// </summary>
@@ -74,57 +75,23 @@ namespace MartianRobots
                     return true;
                 }
 
-                var nextAction = actionsQueue.Dequeue();
-                // check if action is valid
-                switch (nextAction)
+                //var nextAction = actionsQueue.Dequeue();
+
+                var nextAction = ActionStrategyFabric.GetAction(actionsQueue.Dequeue());
+
+                if (nextAction == null)
                 {
-                    // turn left
-                    case 'L':
-                        CurrentDirection = CurrentDirection.Previous();
-                        continue;
-                    // turn right
-                    case 'R':
-                        CurrentDirection = CurrentDirection.Next();
-                        continue;
-                    // move forward
-                    case 'F':
-                        var canMove = currentField.CanMoveToDirection(CurrentX, CurrentY, CurrentDirection);
-                        if (canMove == null)
-                        {
-                            // direction forbidden so skip action
-                            continue;
-                        }
-
-                        if (!canMove.Value)
-                        {
-                            // robot will be lost so just stop further execution
-                            return false;
-                        }
-
-                        moveForward();
-                        // additional actions
-                        continue;
+                    // log or throw exception
+                    return false;
                 }
-            }
-        }
 
-        // move forward current direction
-        private void moveForward()
-        {
-            switch (CurrentDirection)
-            {
-                case RobotDirections.N:
-                    CurrentY++;
-                    break;
-                case RobotDirections.S:
-                    CurrentY--;
-                    break;
-                case RobotDirections.W:
-                    CurrentX--;
-                    break;
-                case RobotDirections.E:
-                    CurrentX++;
-                    break;
+                if (!nextAction.DoAction(currentField, this))
+                {
+                    // robot will be lost so just stop further execution
+                    return false;
+                }
+
+                continue;
             }
         }
     }
