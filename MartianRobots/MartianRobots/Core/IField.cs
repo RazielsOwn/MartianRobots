@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace MartianRobots
+﻿namespace MartianRobots
 {
     public interface IField
     {
-        int MaximumX { get; set; }
-        int MaximumY { get; set; }
-
         /// <summary>
         /// Check if moving is available for selected direction
         /// </summary>

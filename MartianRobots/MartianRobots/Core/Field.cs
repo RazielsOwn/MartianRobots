@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace MartianRobots
 {
@@ -23,9 +22,9 @@ namespace MartianRobots
 
         public Field(int maximumX, int maximumY)
         {
-            MaximumX = maximumX;
-            MaximumY = maximumY;
             badCoordinates = new HashSet<FieldCoordinate>();
+            MaximumX = maximumX < 0 ? 0 : maximumX;
+            MaximumY = maximumY < 0 ? 0 : maximumY;
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace MartianRobots
         // override equality
         public override bool Equals(object obj)
         {
-            FieldCoordinate other = obj as FieldCoordinate;
+            var other = obj as FieldCoordinate;
             return X == other.X && Y == other.Y && Direction == other.Direction;
         }
     }

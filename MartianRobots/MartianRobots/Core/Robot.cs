@@ -30,8 +30,8 @@ namespace MartianRobots
         {
             actionsQueue = new Queue<char>();
             currentField = field;
-            CurrentX = currentX;
-            CurrentY = currentY;
+            CurrentX = currentX < 0 ? 0 : currentX;
+            CurrentY = currentY < 0 ? 0 : currentY;
 
             // assume that north is direction by default or bad input value
             switch (currentDirection.ToUpper())
@@ -51,9 +51,9 @@ namespace MartianRobots
                     break;
             }
 
-            actions = actions.ToUpper();
             if (!string.IsNullOrWhiteSpace(actions))
             {
+                actions = actions.ToUpper();
                 for (var i = 0; i < actions.Length; i++)
                 {
                     actionsQueue.Enqueue(actions[i]);
@@ -78,7 +78,6 @@ namespace MartianRobots
                 //var nextAction = actionsQueue.Dequeue();
 
                 var nextAction = ActionStrategyFabric.GetAction(actionsQueue.Dequeue());
-
                 if (nextAction == null)
                 {
                     // log or throw exception

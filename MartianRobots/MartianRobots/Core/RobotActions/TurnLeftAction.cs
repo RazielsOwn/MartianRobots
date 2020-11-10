@@ -2,7 +2,7 @@
 
 namespace MartianRobots.Core.RobotActions
 {
-    internal class TurnLeftAction : IActionStrategy
+    public class TurnLeftAction : IActionStrategy
     {
         public bool DoAction(IField currentField, IRobot currentRobot)
         {
