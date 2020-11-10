@@ -3,4 +3,4 @@ Assumptions:
 1) Default direction for robot is North if none or bad data provided
 2) Missing or wrong action for robot is ignored and skiped
 3) As x and y is less or equal than 50 by initial problem statement we can be sure to override GetHash function for group of coordinates and direction (x,y,d)
-4) As each robot is processed sequentially, there is no need for "bad coordinates" collection syncronization. 
+4) As each robot is processed sequentially, there is no need for "bad coordinates" collection syncronization.
