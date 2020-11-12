@@ -8,7 +8,16 @@
         /// <param name="currentX"></param>
         /// <param name="currentY"></param>
         /// <param name="direction"></param>
-        /// <returns>false - if robot will be lost, null - if this direction is forbidden based on previous robots data (marked squares) </returns>
-        bool? CanMoveToDirection(int currentX, int currentY, RobotDirections direction);
+        /// <returns>false - if robot will be lost</returns>
+        bool IsMovementAvailable(int currentX, int currentY, RobotDirections direction);
+
+        /// <summary>
+        /// Check if moving is forbidden based on previous robots data (marked squares)
+        /// </summary>
+        /// <param name="currentX"></param>
+        /// <param name="currentY"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        bool IsMovementForbidden(int currentX, int currentY, RobotDirections direction);
     }
 }

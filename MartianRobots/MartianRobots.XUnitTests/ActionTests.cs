@@ -28,7 +28,7 @@ namespace MartianRobots.XUnitTests
         {
             // Arrange
             var fieldMock = new Mock<IField>();
-            fieldMock.Setup(f => f.CanMoveToDirection(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<RobotDirections>())).Returns(true);
+            fieldMock.Setup(f => f.IsMovementAvailable(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<RobotDirections>())).Returns(true);
 
             var robot = new Robot(fieldMock.Object, 0, 0, "N", "");
             var robot1 = new Robot(fieldMock.Object, 0, 0, "E", "");

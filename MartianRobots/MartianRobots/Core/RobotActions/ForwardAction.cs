@@ -6,19 +6,19 @@ namespace MartianRobots.Core.RobotActions
     {
         public bool DoAction(IField currentField, IRobot currentRobot)
         {
-            var canMove = currentField.CanMoveToDirection(currentRobot.CurrentX, currentRobot.CurrentY, currentRobot.CurrentDirection);
-            if (canMove == null)
+            var forbidden = currentField.IsMovementForbidden(currentRobot.CurrentX, currentRobot.CurrentY, currentRobot.CurrentDirection);
+            if (forbidden)
             {
                 // direction forbidden so skip action
                 return true;
             }
 
-            if (!canMove.Value)
+            var canMove = currentField.IsMovementAvailable(currentRobot.CurrentX, currentRobot.CurrentY, currentRobot.CurrentDirection);
+            if (!canMove)
             {
                 // robot will be lost so just stop further execution
                 return false;
             }
-
 
             switch (currentRobot.CurrentDirection)
             {

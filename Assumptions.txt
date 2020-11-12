@@ -2,5 +2,6 @@ Assumptions:
 
 1) Default direction for robot is North if none or bad data provided
 2) Missing or wrong action for robot is ignored and skiped
-3) As x and y is less or equal than 50 by initial problem statement we can be sure to override GetHash function for group of coordinates and direction (x,y,d)
+3) As x and y is less or equal than 50 by initial problem statement we can be sure to override FieldCoordinate.GetHashCode function for group of coordinates and direction (x,y,d), otherwise there can be int overflow...
 4) As each robot is processed sequentially, there is no need for "bad coordinates" collection syncronization. 
+5) Current implementation based on fact that field has no special cells inside the square (different terrain height, or some swamp areas) which will can additionaly impact the robot's movement.

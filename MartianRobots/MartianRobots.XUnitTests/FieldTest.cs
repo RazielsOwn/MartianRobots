@@ -27,16 +27,16 @@ namespace MartianRobots.XUnitTests
             var field = new Field(3, 3);
 
             // Act
-            var canMove = field.CanMoveToDirection(3, 2, RobotDirections.N);
+            var canMove = field.IsMovementAvailable(3, 2, RobotDirections.N);
             // false as this move is limited by field size
-            var lostMove = field.CanMoveToDirection(3, 3, RobotDirections.N);
+            var lostMove = field.IsMovementAvailable(3, 3, RobotDirections.N);
             // must be null based on remembered previous action
-            var cantMove = field.CanMoveToDirection(3, 3, RobotDirections.N);
+            var cantMove = field.IsMovementForbidden(3, 3, RobotDirections.N);
 
             // Assert
             Assert.True(canMove);
             Assert.False(lostMove);
-            Assert.Null(cantMove);
+            Assert.True(cantMove);
         }
     }
 }

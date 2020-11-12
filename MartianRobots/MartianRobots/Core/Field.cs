@@ -33,16 +33,9 @@ namespace MartianRobots
         /// <param name="currentX"></param>
         /// <param name="currentY"></param>
         /// <param name="direction"></param>
-        /// <returns>false - if robot will be lost, null - if this direction is forbidden based on previous robots data (marked squares) </returns>
-        public bool? CanMoveToDirection(int currentX, int currentY, RobotDirections direction)
+        /// <returns>false - if robot will be lost</returns>
+        public bool IsMovementAvailable(int currentX, int currentY, RobotDirections direction)
         {
-            // check stored bad coordinates data
-            if (badCoordinates.Contains(new FieldCoordinate(currentX, currentY, direction)))
-            {
-                // some robot already lost
-                return null;
-            }
-
             var result = false;
             // check further path
             switch (direction)
@@ -68,6 +61,25 @@ namespace MartianRobots
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Check if moving is forbidden based on previous robots data (marked squares)
+        /// </summary>
+        /// <param name="currentX"></param>
+        /// <param name="currentY"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public bool IsMovementForbidden(int currentX, int currentY, RobotDirections direction)
+        {
+            // check stored bad coordinates data
+            if (badCoordinates.Contains(new FieldCoordinate(currentX, currentY, direction)))
+            {
+                // some robot already lost
+                return true;
+            }
+
+            return false;
         }
     }
 
@@ -96,7 +108,10 @@ namespace MartianRobots
         // override equality
         public override bool Equals(object obj)
         {
-            var other = obj as FieldCoordinate;
+            if (obj is not FieldCoordinate other)
+            {
+                throw new System.Exception($"Obj must be {typeof(FieldCoordinate)} data type");
+            }
             return X == other.X && Y == other.Y && Direction == other.Direction;
         }
     }

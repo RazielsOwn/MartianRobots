@@ -1,4 +1,5 @@
 ﻿using MartianRobots.Core.RobotActions;
+using System;
 using System.Collections.Generic;
 
 namespace MartianRobots
@@ -33,22 +34,14 @@ namespace MartianRobots
             CurrentX = currentX < 0 ? 0 : currentX;
             CurrentY = currentY < 0 ? 0 : currentY;
 
-            // assume that north is direction by default or bad input value
-            switch (currentDirection.ToUpper())
+            // assume North is direction by default or bad input value
+            if (Enum.TryParse<RobotDirections>(currentDirection.ToUpperInvariant(), out var currDirection))
             {
-                case "N":
-                default:
-                    CurrentDirection = RobotDirections.N;
-                    break;
-                case "S":
-                    CurrentDirection = RobotDirections.S;
-                    break;
-                case "W":
-                    CurrentDirection = RobotDirections.W;
-                    break;
-                case "E":
-                    CurrentDirection = RobotDirections.E;
-                    break;
+                CurrentDirection = currDirection;
+            }
+            else
+            {
+                CurrentDirection = RobotDirections.N;
             }
 
             if (!string.IsNullOrWhiteSpace(actions))
