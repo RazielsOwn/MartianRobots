@@ -27,6 +27,7 @@ namespace MartianRobots
         /// </summary>
         private readonly Queue<char> actionsQueue;
 
+        // main constructor
         public Robot(IField field, int currentX, int currentY, string currentDirection, string actions)
         {
             actionsQueue = new Queue<char>();
